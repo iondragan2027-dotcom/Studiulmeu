@@ -1,2 +1,2 @@
-# Studiulâmeu
-aplicaie studiul persona
+# Studiulmeu
+aplicaie studiul personal
