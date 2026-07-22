@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudiuMeu – Pregătire Întruniri Creștine</title>
+  <meta name="description" content="Aplicație personală pentru pregătirea întrunirilor creștine, studiul publicațiilor Turnul de Veghe și organizarea notițelor." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2b5797" />
+<link rel="icon" href="icons/icon-192.png" type="image/png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="StudiuMeu" />
+<style>
+#pwaInstallBtn{
+  position:fixed;
+  bottom:18px;
+  right:18px;
+  z-index:100000;
+  display:none;
+  align-items:center;
+  gap:8px;
+  padding:12px 18px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#4f8ef7,#6c63ff);
+  color:#fff;
+  font-size:14px;
+  font-weight:600;
+  font-family:inherit;
+  box-shadow:0 6px 18px rgba(76,99,255,0.4);
+  cursor:pointer;
+}
+#pwaInstallBtn svg{flex-shrink:0}
+</style>
+<script>if("serviceWorker"in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("service-worker.js")})}</script>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="38" height="38">
+        <rect width="40" height="40" rx="10" fill="url(#grad1)"/>
+        <path d="M10 28V14c0-1.1.9-2 2-2h6l2 3h8a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2z" stroke="white" stroke-width="1.5" fill="none"/>
+        <line x1="14" y1="20" x2="26" y2="20" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="14" y1="23" x2="22" y2="23" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="grad1" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#4f8ef7"/>
+            <stop offset="100%" stop-color="#6c63ff"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div>
+        <span class="logo-title">StudiuMeu</span>
+        <span class="logo-sub">Pregătire Întruniri</span>
+      </div>
+    </div>
+    <button class="sidebar-toggle-btn" id="sidebarToggle" title="Închide meniu">
+      <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <span class="nav-section-label">PRINCIPAL</span>
+    <a href="#" class="nav-item active" data-page="dashboard" id="nav-dashboard">
+      <svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      Panou Principal
+    </a>
+    <a href="#" class="nav-item" data-page="temacursant" id="nav-temacursant">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Temă pentru cursant
+    </a>
+    <div class="nav-group" id="navGroup-workbook">
+      <a href="#" class="nav-item nav-group-toggle" onclick="toggleNavGroup('workbook')">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" stroke="currentColor" stroke-width="2" fill="none"/><rect x="9" y="3" width="6" height="4" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><line x1="9" y1="12" x2="15" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="16" x2="13" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="nav-item-label">Viața creștină și predicarea</span>
+        <svg class="nav-group-chevron" viewBox="0 0 24 24" width="14" height="14"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      </a>
+      <div class="nav-group-content">
+        <a href="#" class="nav-item nav-subitem" data-page="workbook" id="nav-workbook">
+          <span class="nav-subitem-dot">📋</span>
+          Pregătire
+        </a>
+        <a href="#" class="nav-item nav-subitem" data-page="talk5cuv" id="nav-talk5cuv">
+          <span class="nav-subitem-dot">🎤</span>
+          Cuvântare 5 minute
+        </a>
+      </div>
+    </div>
+    <div class="nav-group open" id="navGroup-watchtower">
+      <a href="#" class="nav-item nav-group-toggle" onclick="toggleNavGroup('watchtower')">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" stroke-width="2" fill="none"/><line x1="8" y1="7" x2="16" y2="7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="11" x2="14" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="nav-item-label">Întrunirea Publică și Studiul Turnului de Veghe</span>
+        <svg class="nav-group-chevron" viewBox="0 0 24 24" width="14" height="14"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      </a>
+      <div class="nav-group-content">
+        <a href="#" class="nav-item nav-subitem" data-page="discurs" id="nav-discurs">
+          <span class="nav-subitem-dot">📢</span>
+          Cuvântare Publică 30 minute
+        </a>
+        <a href="#" class="nav-item nav-subitem" data-page="watchtower" id="nav-watchtower">
+          <span class="nav-subitem-dot"><svg viewBox="0 0 130 60" width="16" height="7.4" style="display:block"><path d="M19,56 L19,43 L11,43 L11,36 L2,36 L2,2 L21,2 L21,12 L32,12 L32,2 L46,2 L46,12 L57,12 L57,2 L72,2 L72,12 L83,12 L83,2 L98,2 L98,12 L109,12 L109,2 L127,2 L127,36 L119,36 L119,43 L111,43 L111,56" stroke="currentColor" stroke-width="9" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg></span>
+          Turnul de Veghe
+        </a>
+      </div>
+    </div>
+
+    <a href="#" class="nav-item" data-page="library" id="nav-library">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      Bibliotecă
+    </a>
+    <a href="#" class="nav-item" data-page="bible" id="nav-bible">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      Studiu Biblic
+    </a>
+    <a href="#" class="nav-item" data-page="notes" id="nav-notes">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" stroke="currentColor" stroke-width="2" fill="none"/><polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="8" y1="13" x2="16" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="17" x2="12" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Notițele Mele
+    </a>
+    <div class="nav-group" id="navGroup-fieldservice">
+      <a href="#" class="nav-item nav-group-toggle" onclick="toggleNavGroup('fieldservice')">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path></svg>
+        <span class="nav-item-label">Întrunirea de ieșire pe teren</span>
+        <svg class="nav-group-chevron" viewBox="0 0 24 24" width="14" height="14"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+      </a>
+      <div class="nav-group-content">
+        <a href="#" class="nav-item nav-subitem" data-page="fieldservice" id="nav-fieldservice">
+          <span class="nav-subitem-dot">🧑‍🤝‍🧑</span>
+          Serviciul de ieșire pe teren
+        </a>
+        <a href="#" class="nav-item nav-subitem" onclick="navigateToFieldServiceSchedule()">
+          <span class="nav-subitem-dot">📅</span>
+          Program pentru Întrunirea de Ieșire pe Teren
+        </a>
+        <a href="#" class="nav-item nav-subitem" data-page="fieldschedulingpreview" id="nav-fieldschedulingpreview">
+          <span class="nav-subitem-dot">🖼️</span>
+          Programare de ieșire pe teren
+        </a>
+        <a href="#" class="nav-item nav-subitem" data-page="preachingassistant" id="nav-preachingassistant">
+          <span class="nav-subitem-dot">🗣️</span>
+          Asistent de predicare
+        </a>
+      </div>
+    </div>
+
+    <span class="nav-section-label" style="margin-top:12px">ÎNTRUNIRI</span>
+    <a href="#" class="nav-item" data-page="meetings" id="nav-meetings">
+      <svg viewBox="0 0 24 24" width="18" height="18"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Programul Meu
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="font-scale-control">
+      <button class="font-scale-btn" id="fontDecreaseBtn" onclick="changeFontScale(-1)" title="Micșorează text">A</button>
+      <span class="font-scale-value" id="fontScaleValue">14</span>
+      <button class="font-scale-btn font-scale-btn-lg" id="fontIncreaseBtn" onclick="changeFontScale(1)" title="Mărește text">A</button>
+    </div>
+  </div>
+</aside>
+
+
+<!-- BUTON EXTINDERE SIDEBAR (vizibil doar când sidebar e restrâns) -->
+<button class="sidebar-expand-btn" id="sidebarExpandBtn" title="Deschide meniu">
+  <svg viewBox="0 0 24 24" width="18" height="18"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<!-- MAIN CONTENT -->
+<main class="main-content" id="mainContent">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <button class="hamburger" id="hamburger" title="Meniu">
+      <svg viewBox="0 0 24 24" width="22" height="22"><line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <h1 class="topbar-title" id="pageTitle">Panou Principal</h1>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="settingsBtn" onclick="openSettingsModal()" title="Setări">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" stroke="currentColor" stroke-width="2" fill="none"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- PAGE: DASHBOARD -->
+  <section class="page active" id="page-dashboard">
+    <div class="dashboard-greeting">
+      <div>
+        <h2 id="greetingText">Bună ziua! 🌿</h2>
+        <p class="greeting-sub" id="greetingDate"></p>
+      </div>
+      <div class="year-text-box" id="yearTextBox">
+        <div class="year-text-header">
+          <span class="year-text-label">✨ Textul Anului</span>
+          <div class="year-text-actions" id="yearTextActions" style="display:none">
+            <button class="yt-menu-btn" id="yearTextMenuBtn" onclick="event.stopPropagation(); toggleYearTextMenu()" title="Meniu">
+              <svg viewBox="0 0 24 24" width="16" height="16"><line x1="4" y1="6" x2="20" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="4" y1="12" x2="20" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="4" y1="18" x2="20" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+            <div class="year-text-dropdown" id="yearTextDropdown">
+              <button class="yt-btn-edit" onclick="event.stopPropagation(); closeYearTextMenu(); openYearTextEdit()" title="Editează">✏️ Editează</button>
+              <button class="yt-btn-delete" onclick="event.stopPropagation(); closeYearTextMenu(); deleteYearText()" title="Șterge">🗑 Șterge</button>
+            </div>
+          </div>
+        </div>
+        <p class="year-text-content" id="yearTextDisplay">Apasă pentru a adăuga textul anului...</p>
+        <div class="year-text-edit" id="yearTextEdit" style="display:none">
+          <div class="year-color-picker">
+            <span style="font-size:0.75rem;color:var(--text-muted);margin-right:6px">Culoare:</span>
+            <button class="color-swatch" style="background:#e53e3e" data-color="#e53e3e" onclick="selectYearColor(this)" title="Roșu"></button>
+            <button class="color-swatch" style="background:#805ad5" data-color="#805ad5" onclick="selectYearColor(this)" title="Mov"></button>
+            <button class="color-swatch active" style="background:#e6edf3" data-color="#e6edf3" onclick="selectYearColor(this)" title="Alb"></button>
+          </div>
+          <div class="year-size-picker">
+            <span style="font-size:0.75rem;color:var(--text-muted);margin-right:6px">Mărime:</span>
+            <div class="year-size-buttons" id="yearSizeButtons"></div>
+          </div>
+          <textarea id="yearTextInput" class="form-textarea" style="min-height:70px;font-size:0.85rem" placeholder="Scrie textul anului..."></textarea>
+          <div style="display:flex;gap:8px;margin-top:6px">
+            <button class="btn-primary btn-sm" onclick="saveYearText()">💾 Salvează</button>
+            <button class="btn-ghost btn-sm" onclick="cancelYearText()">Anulează</button>
+          </div>
+        </div>
+      </div>
+      <div class="streak-badge">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/></svg>
+        <span id="streakCount">0 zile studiu</span>
+      </div>
+    </div>
+
+    <!-- STATS CARDS -->
+    <div class="stats-grid">
+      <div class="stat-card" style="--accent:#4f8ef7">
+        <div class="stat-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="white" stroke-width="2" fill="none"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="white" stroke-width="2" fill="none"/></svg>
+        </div>
+        <div>
+          <p class="stat-label">Articole Studiate</p>
+          <h3 class="stat-value" id="stat-articles">0</h3>
+        </div>
+      </div>
+      <div class="stat-card" style="--accent:#10c9a0">
+        <div class="stat-icon" style="background:rgba(16,201,160,0.15)">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" stroke="white" stroke-width="2" fill="none"/></svg>
+        </div>
+        <div>
+          <p class="stat-label">Notițe Salvate</p>
+          <h3 class="stat-value" id="stat-notes">0</h3>
+        </div>
+      </div>
+      <div class="stat-card" style="--accent:#f97b4f">
+        <div class="stat-icon" style="background:rgba(249,123,79,0.15)">
+          <svg viewBox="0 0 24 24" width="22" height="22"><rect x="3" y="4" width="18" height="18" rx="2" stroke="white" stroke-width="2" fill="none"/><line x1="16" y1="2" x2="16" y2="6" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="2" x2="8" y2="6" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="10" x2="21" y2="10" stroke="white" stroke-width="2"/></svg>
+        </div>
+        <div>
+          <p class="stat-label">Întruniri Pregătite</p>
+          <h3 class="stat-value" id="stat-meetings">0</h3>
+        </div>
+      </div>
+      <div class="stat-card" style="--accent:#a855f7">
+        <div class="stat-icon" style="background:rgba(168,85,247,0.15)">
+          <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="white" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M2 17l10 5 10-5" stroke="white" stroke-width="2" fill="none"/><path d="M2 12l10 5 10-5" stroke="white" stroke-width="2" fill="none"/></svg>
+        </div>
+        <div>
+          <p class="stat-label">Versete Marcate</p>
+          <h3 class="stat-value" id="stat-verses">0</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- NEXT MEETING -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Următoarea Întrunire</h3>
+          <span class="badge badge-blue">Programat</span>
+        </div>
+        <div class="next-meeting-info" id="nextMeetingInfo">
+          <div class="meeting-type-icon">📖</div>
+          <div>
+            <p class="meeting-name" id="nextMeetingName">Studierea Turnului de Veghe</p>
+            <p class="meeting-date" id="nextMeetingDate">Se calculează...</p>
+            <div class="progress-section">
+              <div class="progress-label"><span>Pregătire</span><span id="nextMeetingProgress">0%</span></div>
+              <div class="progress-bar"><div class="progress-fill" id="nextMeetingProgressBar" style="width:0%"></div></div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-outline w-full" onclick="navigateTo('watchtower')">Deschide Studiul →</button>
+      </div>
+
+      <!-- RECENT NOTES -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Notițe Recente</h3>
+          <a href="#" class="card-link" onclick="navigateTo('notes')">Vezi toate</a>
+        </div>
+        <div id="recentNotesList" class="recent-list">
+          <div class="empty-state-small">Nicio notiță încă. Începe studiul!</div>
+        </div>
+      </div>
+
+      <!-- BIBLE BUTTON -->
+      <div class="card verse-card">
+        <div style="display:flex;gap:8px">
+          <button class="btn-outline btn-sm" onclick="readVerseInBible()" style="font-size:0.75rem;padding:5px 10px">Citește în Biblie 📖</button>
+        </div>
+      </div>
+
+      <!-- QUICK STUDY -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Studiu Rapid</h3>
+          <span class="badge badge-green">Activ</span>
+        </div>
+        <div class="quick-links">
+          <h4 class="quick-section-title">Întrunirea Publică și Studiul Turnului de Veghe</h4>
+          <a class="quick-link-item" href="#" onclick="navigateTo('watchtower')">
+            <span class="ql-icon"><svg viewBox="0 0 130 60" width="19" height="8.8" style="display:block"><path d="M19,56 L19,43 L11,43 L11,36 L2,36 L2,2 L21,2 L21,12 L32,12 L32,2 L46,2 L46,12 L57,12 L57,2 L72,2 L72,12 L83,12 L83,2 L98,2 L98,12 L109,12 L109,2 L127,2 L127,36 L119,36 L119,43 L111,43 L111,56" stroke="currentColor" stroke-width="8" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg></span>
+            <span>Turnul de Veghe – Studiu</span>
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </a>
+          <a class="quick-link-item" href="#" onclick="navigateTo('temacursant')">
+            <span class="ql-icon">📝</span>
+            <span>Temă pentru cursant</span>
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </a>
+
+          <a class="quick-link-item" href="#" onclick="navigateTo('workbook')">
+            <span class="ql-icon">📋</span>
+            <span>Viața creștină și predicarea</span>
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </a>
+
+          <a class="quick-link-item" href="#" onclick="navigateTo('fieldservice')">
+            <span class="ql-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path></svg></span>
+            <span>Întrunirea de ieșire pe teren</span>
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </a>
+
+          <a class="quick-link-item" href="#" onclick="navigateTo('bible')">
+            <span class="ql-icon">✏️</span>
+            <span>Studiu Biblic Personal</span>
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </a>
+          <a class="quick-link-item" href="https://www.jw.org/ro" target="_blank">
+            <span class="ql-icon">🌐</span>
+            <span>Deschide jw.org/ro</span>
+            <svg viewBox="0 0 24 24" width="14" height="14"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" stroke="currentColor" stroke-width="2" fill="none"/><polyline points="15 3 21 3 21 9" stroke="currentColor" stroke-width="2" fill="none"/><line x1="10" y1="14" x2="21" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE: WATCHTOWER -->
+  <section class="page" id="page-watchtower">
+    <div class="page-header">
+      <h2><svg viewBox="0 0 130 60" width="26" height="12" style="vertical-align:middle;margin-right:8px;margin-top:-4px"><path d="M19,56 L19,43 L11,43 L11,36 L2,36 L2,2 L21,2 L21,12 L32,12 L32,2 L46,2 L46,12 L57,12 L57,2 L72,2 L72,12 L83,12 L83,2 L98,2 L98,12 L109,12 L109,2 L127,2 L127,36 L119,36 L119,43 L111,43 L111,56" stroke="currentColor" stroke-width="6" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg>Turnul de Veghe – Studiu</h2>
+      <p class="page-sub">Introduceți răspunsurile și notițele pentru articolul de studiu săptămânal</p>
+    </div>
+
+    <div class="wt-container">
+      <div class="wt-meta-card card">
+        <h3>Detalii Articol</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Titlul Articolului</label>
+            <input type="text" id="wt-title" placeholder="ex: Fii desăvârșit în dragoste" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Data Întrunirii</label>
+            <input type="date" id="wt-date" class="form-input" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Număr Watchtower / Ediție</label>
+            <input type="text" id="wt-edition" placeholder="ex: Nr. 3, 2025" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Paragraf(e)</label>
+            <input type="text" id="wt-paragraphs" placeholder="ex: 1-15" class="form-input" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Verset de bază</label>
+          <input type="text" id="wt-base-verse" placeholder="ex: 1 Ioan 4:8" class="form-input" />
+        </div>
+        <div class="progress-section">
+          <div class="progress-label"><span>Progres Studiu</span><span id="wtProgress">0%</span></div>
+          <div class="progress-bar"><div class="progress-fill" id="wtProgressBar" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <!-- PARAGRAPHS/QUESTIONS -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Paragrafe & Răspunsuri</h3>
+          <button class="btn-primary btn-sm" onclick="addWtParagraph()">+ Adaugă Paragraf</button>
+        </div>
+
+        <!-- Editor Paragraf Inline (FĂRĂ MODAL, complet funcțional cu AI Assistant) -->
+        <div id="wtParagraphEditor" class="inline-paragraph-editor" style="display:none; margin: 16px; padding: 16px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius)">
+          <div class="card-header" style="padding-top:0">
+            <h4 id="wtParagraphEditorTitle" style="margin:0">Paragraf Nou</h4>
+            <button class="btn-ghost btn-sm" onclick="closeParagraphEditor()">Închide</button>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-top: 12px" class="wt-editor-split">
+            <!-- Left inputs -->
+            <div style="display:flex; flex-direction:column; gap:12px">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Număr Paragraf</label>
+                  <input type="number" id="parNumber" class="form-input" placeholder="1" min="1" />
+                </div>
+                <div class="form-group">
+                  <label>Verset(e) asociat(e)</label>
+                  <input type="text" id="parVerse" class="form-input" placeholder="ex: Ioan 13:34" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Idee principală</label>
+                <input type="text" id="parMain" class="form-input" placeholder="Ideea centrală a paragrafului..." />
+              </div>
+              <div class="form-group">
+                <label>Răspunsul meu la întrebare</label>
+                <textarea class="form-textarea" id="parAnswer" placeholder="Răspunsul tău personal, cu cuvintele tale..."></textarea>
+              </div>
+              <div class="form-group">
+                <label>Notițe personale</label>
+                <textarea class="form-textarea" id="parNotes" placeholder="Alte gânduri, conexiuni cu alte scripturi..."></textarea>
+              </div>
+              <div style="display:flex; gap:10px; margin-top:8px">
+                <button class="btn-ghost btn-sm" onclick="closeParagraphEditor()">Anulează</button>
+                <button class="btn-primary btn-sm" onclick="saveParagraph()">Adaugă Paragraf</button>
+              </div>
+            </div>
+
+            <!-- Right AI Assist Panel -->
+            <div class="ai-assistant-panel" style="background:var(--bg-elevated); padding:16px; border-radius:var(--radius-sm); border:1px solid var(--border)">
+              <div class="ai-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+                <span class="ai-title" style="font-weight:700; color:var(--text-primary)">🔮 Asistent AI Paragrafe</span>
+                <span class="badge badge-purple">Activ</span>
+              </div>
+              <p class="ai-subtitle" style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px">Generează sugestii de răspunsuri și idei de comentarii adaptate la ideea principală.</p>
+              <button type="button" class="btn-primary btn-sm btn-sparkle w-full" onclick="generateParagraphSuggestions()">
+                ✨ Generează Sugestii de Comentariu
+              </button>
+              <div class="ai-suggestions-list" id="aiSuggestionsList" style="margin-top:12px; max-height:220px; overflow-y:auto">
+                <div class="ai-empty-state" style="font-size:0.8rem; color:var(--text-muted)">
+                  Scrie ideea principală în stânga, apoi apasă butonul pentru a primi sugestii.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="wtParagraphsList" class="paragraphs-list">
+          <!-- paragraphs added dynamically -->
+        </div>
+      </div>
+
+      <!-- SYNTHESIS -->
+      <div class="card">
+        <div class="card-header">
+          <h3>📝 Sinteză Personală</h3>
+          <span class="badge badge-purple">AI Assist</span>
+        </div>
+        <textarea class="form-textarea" id="wt-synthesis" placeholder="Scrie aici sinteza ta personală a articolului: ce te-a impresionat, cum poți aplica principiile..."></textarea>
+        <div class="action-row">
+          <button class="btn-ghost" onclick="autoSynthesize()">✨ Generează Sinteză Automată</button>
+          <button class="btn-primary" onclick="saveWtStudy()">💾 Salvează Studiul</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE: DISCURS BIBLIC -->
+  <section class="page" id="page-discurs">
+    <div class="page-header">
+      <h2>📢 Cuvântare Publică – 30 minute</h2>
+      <p class="page-sub">Întrunirea Publică și Studiul Turnului de Veghe</p>
+    </div>
+
+    <div class="wt-container">
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="padding:20px">
+          <div class="form-row">
+            <div class="form-group" style="max-width:220px">
+              <label>Data Cuvântării</label>
+              <input type="date" id="discursData" class="form-input" onchange="loadDiscursDraftForDate(this.value)" />
+            </div>
+            <div class="form-group" style="flex:1">
+              <label>Titlul Discursului</label>
+              <input type="text" id="discursTitlu" class="form-input" placeholder="ex: Fidelitatea față de Iehova în vremuri dificile" oninput="saveDiscursDraft()" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Notă</label>
+            <textarea id="discursVerset" class="form-textarea small" placeholder="ex: Vorbește cu căldură și convingere. Menționează ideile principale și foloasele practice." oninput="saveDiscursDraft()"></textarea>
+          </div>
+          <div class="discurs-sections-panel">
+            <div class="card-header">
+              <div>
+                <h3>Subtitlurile cuvântării</h3>
+                <p class="page-sub" style="margin:4px 0 0">Durata totală se calculează automat din minutele introduse.</p>
+              </div>
+              <button type="button" class="btn-outline btn-sm" onclick="addDiscursSection()">+ Subtitlu</button>
+            </div>
+            <div id="discursSectionsList" class="discurs-sections-list"></div>
+          </div>
+
+          <div class="discurs-timer-bar" id="discursTimerBar">
+            <div class="discurs-timer-display">
+              <span class="discurs-timer-icon" id="discursTimerIcon">⏱</span>
+              <span class="discurs-timer-value" id="discursTimerValue">30:00</span>
+              <span class="discurs-timer-label" id="discursTimerLabel">din 30 minute</span>
+            </div>
+            <div class="discurs-timer-progress-wrap">
+              <div class="discurs-active-section" id="discursActiveSection">Subtitlul activ: -</div>
+              <div class="discurs-section-time" id="discursSectionTime">Timp subtitlu: 00:00</div>
+              <div class="discurs-timer-progress-bg">
+                <div class="discurs-timer-progress-fill" id="discursTimerFill" style="width:0%"></div>
+              </div>
+              <div class="discurs-total-progress-row">
+                <span>Progres total</span>
+                <span id="discursTotalProgress">0%</span>
+              </div>
+            </div>
+            <div class="discurs-timer-alert" id="discursTimerAlert" aria-live="polite"></div>
+            <div class="discurs-timer-btns">
+              <button class="btn-primary btn-sm" id="discursTimerStartBtn" onclick="discursTimerStart()">▶ Start</button>
+              <button class="btn-ghost btn-sm" id="discursTimerPauseBtn" onclick="discursTimerPause()" style="display:none">⏸ Pauză</button>
+              <button class="btn-ghost btn-sm" onclick="discursTimerReset()">↺ Reset</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="note-label-row">
+              <label id="discursNotesLabel">Notițele Discursului</label>
+              <div class="note-font-control">
+                <button type="button" class="note-font-btn" onclick="changeDiscursNoteFontSize(-1)" title="Micșorează text">A</button>
+                <span class="note-font-value" id="discursNoteFontValue">14</span>
+                <button type="button" class="note-font-btn note-font-btn-lg" onclick="changeDiscursNoteFontSize(1)" title="Mărește text">A</button>
+                <button type="button" class="note-fullscreen-btn" onclick="openFullscreenNote('discursNote', 'Cuvântare Publică – 30 minute')" title="Ecran complet">🖥 Ecran complet</button>
+              </div>
+            </div>
+            <textarea id="discursNote" class="form-textarea discurs-textarea"
+              placeholder="Scrie discursul tău aici... Introducere, punctele principale, concluzie."
+              oninput="saveDiscursDraft(); updateWordCounters()"></textarea>
+            <div class="word-counter" id="discursWordCounter">Cuvinte: 0</div>
+            <div id="discursBlockedMsg" style="display:none" class="discurs-blocked-msg">
+              ⛔ Timpul de 30 minute s-a încheiat. Discursul a fost blocat. Poți salva notițele.
+            </div>
+          </div>
+          <div class="action-row">
+            <button class="btn-ghost" onclick="newDiscursTalk()">➕ Cuvântare Nouă</button>
+            <button class="btn-ghost" id="discursDeleteBtn" onclick="deleteDiscursDraft()" style="display:none;color:var(--red)">🗑 Șterge</button>
+            <button class="btn-primary" onclick="saveDiscursNote()">💾 Salvează Cuvântarea</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <div class="page-header" style="margin-bottom:12px">
+          <h3 style="margin:0">📚 Cuvântări Salvate</h3>
+          <p class="page-sub" style="margin:0">Apasă pe o cuvântare pentru a o încărca și edita.</p>
+        </div>
+        <div id="discursTalksList" class="notes-grid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE: TEMĂ PENTRU CURSANT -->
+  <section class="page" id="page-temacursant">
+    <div class="page-header">
+      <h2>📝 Temă pentru cursant</h2>
+      <p class="page-sub">Notează-ți datele pentru tema de la întrunirea „Viața creștină și predicarea", salvează-le și generează fișa de printat.</p>
+    </div>
+
+    <div class="wt-container">
+      <div class="card">
+        <div class="card-header"><h3>✏️ Temă nouă</h3></div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nume</label>
+            <input type="text" id="tc-nume" class="form-input" placeholder="Drăgan Ion" />
+          </div>
+          <div class="form-group">
+            <label>Partener</label>
+            <input type="text" id="tc-partener" class="form-input" placeholder="Nume partener (opțional)" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Data</label>
+            <input type="date" id="tc-data" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Tema nr.</label>
+            <input type="text" id="tc-temanr" class="form-input" placeholder="ex: 1" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Se va ține în</label>
+          <select id="tc-sala" class="form-input">
+            <option value="principala">Sala principală</option>
+            <option value="secundara1">Prima sală secundară</option>
+            <option value="secundara2">A doua sală secundară</option>
+          </select>
+        </div>
+        <div class="action-row">
+          <button class="btn-ghost" id="tcDeleteBtn" onclick="deleteTemaCursant()" style="display:none;color:var(--red)">🗑 Șterge</button>
+          <button class="btn-ghost" onclick="resetTemaCursantForm()">↩ Temă nouă</button>
+          <button class="btn-primary" onclick="saveTemaCursant()">💾 Salvează Tema</button>
+        </div>
+
+        <div class="tc-note-box" style="margin-top:16px;padding:12px 14px;border-radius:10px;background:var(--bg-secondary,rgba(127,127,127,0.08));font-size:0.82rem;line-height:1.5;color:var(--text-secondary,#666)">
+          <strong>Notă pentru cursant:</strong> Materialul și lecția pentru tema repartizată
+          sunt indicate în Caietul pentru întrunirea „Viața creștină și predicarea”.
+          Când îți pregătești tema, te rugăm să ții cont de Instrucțiunile
+          pentru întrunirea „Viața creștină și predicarea” (S-38).
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 id="tcCalendarTitle">📅 Calendar</h3>
+          <div style="display:flex;gap:6px">
+            <button class="btn-ghost btn-sm" onclick="shiftTemaCursantCalendar(-1)">◀</button>
+            <button class="btn-ghost btn-sm" onclick="shiftTemaCursantCalendar(0)">Azi</button>
+            <button class="btn-ghost btn-sm" onclick="shiftTemaCursantCalendar(1)">▶</button>
+          </div>
+        </div>
+        <div id="tcCalendarGrid" class="tc-calendar-grid"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>📋 Teme salvate</h3></div>
+        <div id="tcList" class="notes-grid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-workbook">
+    <div class="page-header">
+      <h2>📋 Viața creștină și predicarea</h2>
+      <p class="page-sub">Pregătire pentru întrunirea de mijlocul săptămânii</p>
+    </div>
+
+    <div class="wt-container">
+      <div class="wt-meta-card card">
+        <h3>Detalii Săptămână</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Săptămâna</label>
+            <input type="text" id="wb-week" placeholder="ex: 2-8 Iunie 2025" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Data Întrunirii</label>
+            <input type="date" id="wb-date" class="form-input" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Citirea Bibliei Săptămânală</label>
+          <input type="text" id="wb-reading" placeholder="ex: Geneza 1-3" class="form-input" />
+        </div>
+      </div>
+
+      <!-- SECTIONS -->
+      <div class="card">
+        <div class="card-header"><h3>🎵 Cântare & Rugăciune de Deschidere</h3></div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Număr Cântare</label>
+            <input type="text" id="wb-song-open" placeholder="ex: Cântarea 72" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Notițe</label>
+            <input type="text" id="wb-song-open-notes" placeholder="Impresii..." class="form-input" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>📖 Comori din Cuvântul lui Dumnezeu</h3>
+        </div>
+        <div class="wb-section-items" id="wbTreasures">
+          <div class="wb-item">
+            <div class="form-group"><label>Discurs principal</label><input type="text" class="form-input" placeholder="Titlu discurs" /></div>
+            <div class="form-group"><label>Notițe personale</label><textarea class="form-textarea small" placeholder="Ce m-a impresionat..."></textarea></div>
+          </div>
+          <div class="wb-item">
+            <div class="form-group"><label>Căutați nestemate spirituale</label></div>
+            <div class="form-group"><textarea class="form-textarea small" placeholder="Versete cheie, idei principale..."></textarea></div>
+          </div>
+          <div class="wb-item">
+            <div class="form-group"><label>Citirea Bibliei</label><input type="text" class="form-input" placeholder="Pasaj citit" /></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>🌾 Să fim mai eficienți în Predicare</h3>
+          <button class="btn-primary btn-sm" onclick="addWbMinistryItem()">+ Adaugă</button>
+        </div>
+        <div id="wbMinistryList" class="wb-section-items">
+          <div class="wb-item">
+            <div class="form-row">
+              <div class="form-group"><label>Subiect / Tip</label><input type="text" class="form-input" placeholder="ex: Prezentarea inițială"/></div>
+              <div class="form-group"><label>Asistent / Student</label><input type="text" class="form-input" placeholder="Nume"/></div>
+            </div>
+            <div class="form-group"><label>Notițe pregătire</label><textarea class="form-textarea small" placeholder="Ce vei spune, versete de folosit..."></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>🎤 Cuvântare</h3>
+        </div>
+        <div class="wb-section-items">
+          <div class="wb-item">
+            <p class="page-sub" style="margin:0 0 10px 0">Cuvântarea de 5 minute are acum pagina ei proprie, cu timer și notițe pe tot ecranul.</p>
+            <button class="btn-primary" onclick="navigateTo('talk5cuv')">🎤 Deschide Cuvântarea</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>❤️ VIAȚA DE CREȘTIN</h3></div>
+        <div id="wbChristianLife" class="wb-section-items">
+          <div class="wb-item">
+            <div class="form-group"><label>Studiu biblic congregațional – Carte/Capitol</label><input type="text" class="form-input" placeholder="ex: Acesta este viața veșnică, Cap. 3"/></div>
+            <div class="form-group"><label>Întrebări/Răspunsuri de pregătit</label><textarea class="form-textarea small" placeholder="Notițele tale..."></textarea></div>
+          </div>
+        </div>
+
+        <div class="book-card" style="margin-top:16px;padding:14px;border:1px solid var(--border);border-radius:10px;background:var(--surface2)">
+          <h3 style="font-size:0.95rem;font-weight:600;margin-bottom:10px;color:var(--text-primary)">Să umblăm cu Dumnezeu plini de curaj</h3>
+
+          <div class="book-item" style="padding:7px 0;border-bottom:1px solid var(--border)">
+            <a href="https://www.jw.org/ro/biblioteca/carti/sa-umblam-cu-dumnezeu-plini-de-curaj/" target="_blank" style="color:var(--accent);text-decoration:none;font-size:0.88rem">
+              Scrisoare din partea Corpului de Guvernare
+            </a>
+          </div>
+
+          <div class="book-item" style="padding:7px 0;border-bottom:1px solid var(--border)">
+            <a href="https://www.jw.org/ro/biblioteca/carti/sa-umblam-cu-dumnezeu-plini-de-curaj/" target="_blank" style="color:var(--accent);text-decoration:none;font-size:0.88rem">
+              INTRODUCERE
+            </a>
+          </div>
+
+          <div class="book-item" style="padding:7px 0">
+            <a href="https://www.jw.org/ro/biblioteca/carti/sa-umblam-cu-dumnezeu-plini-de-curaj/patriarhi-epoca-judecatorilor/" target="_blank" style="color:var(--accent);text-decoration:none;font-size:0.88rem">
+              SECȚIUNEA 1
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card">
+        <div class="action-row">
+          <button class="btn-ghost">↩ Resetează</button>
+          <button class="btn-primary" onclick="saveWorkbook()">💾 Salvează Pregătirea</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE: CUVÂNTARE 5 MINUTE (pagină separată) -->
+  <section class="page" id="page-talk5cuv">
+    <div class="page-header">
+      <h2>🎤 Cuvântare – 5 minute</h2>
+      <p class="page-sub">Pregătirea și cronometrul pentru cuvântarea de 5 minute din cadrul Vieții creștine</p>
+    </div>
+
+    <div class="wt-container">
+      <div class="card">
+        <div class="card-header">
+          <h3>🎤 Cuvântare</h3>
+          <span class="badge badge-purple" style="font-size:0.75rem;cursor:pointer" onclick="toggleTalkAiPanel()">✨ Asistent AI</span>
+        </div>
+
+        <!-- TIMER 5 MINUTE -->
+        <div class="discurs-timer-bar timer-bar-inline" id="talkTimerBar">
+          <div class="discurs-timer-display">
+            <span class="discurs-timer-icon" id="talkTimerIcon">⏱</span>
+            <span class="discurs-timer-value" id="talkTimerValue">05:00</span>
+            <span class="discurs-timer-label" id="talkTimerLabel">din 5 minute</span>
+          </div>
+          <div class="discurs-timer-progress-wrap">
+            <div class="discurs-timer-progress-bg">
+              <div class="discurs-timer-progress-fill" id="talkTimerFill" style="width:100%"></div>
+            </div>
+          </div>
+          <div class="discurs-timer-btns">
+            <button class="btn-primary btn-sm" id="talkTimerStartBtn" onclick="talkTimerStart()">▶ Start</button>
+            <button class="btn-ghost btn-sm" id="talkTimerPauseBtn" onclick="talkTimerPause()" style="display:none">⏸ Pauză</button>
+            <button class="btn-ghost btn-sm" onclick="talkTimerReset()">↺ Reset</button>
+          </div>
+        </div>
+
+        <div class="wb-section-items">
+          <div class="wb-item">
+            <div class="form-row">
+              <div class="form-group"><label>Subiect</label><input type="text" id="talk-subject" class="form-input" placeholder="Tema cuvântării" oninput="saveTalkDraft()"/></div>
+              <div class="form-group"><label>Durată</label><input type="text" id="talk-duration" class="form-input" value="5 minute" oninput="saveTalkDraft()"/></div>
+            </div>
+
+            <!-- Talk AI Helper Panel -->
+            <div id="talkAiPanel" class="ai-assistant-panel" style="display:none; margin: 10px 0; padding: 12px; border: 1px dashed var(--accent); background: var(--bg-card-glow);">
+              <p style="font-size:0.8rem; font-weight:600; margin-bottom:6px">🔮 Asistent Plan Cuvântare</p>
+              <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px">Introduceți subiectul cuvântării de mai sus, apoi selectați un stil de schiță:</p>
+              <div style="display:flex; gap:6px; margin-bottom:8px; flex-wrap:wrap">
+                <button type="button" class="btn-xs btn-primary" onclick="generateTalkOutline('explicativ')">📚 Schiță Explicativă</button>
+                <button type="button" class="btn-xs btn-primary" onclick="generateTalkOutline('practic')">🌱 Schiță Practică</button>
+                <button type="button" class="btn-xs btn-primary" onclick="generateTalkOutline('incurajator')">❤️ Schiță Încurajatoare</button>
+              </div>
+              <div id="talkAiSuggestions" style="font-size:0.8rem; line-height:1.4; color:var(--text-secondary); background:rgba(0,0,0,0.15); padding:8px; border-radius:4px; display:none; max-height:150px; overflow-y:auto; margin-bottom:6px"></div>
+              <button type="button" id="useTalkOutlineBtn" class="btn-xs btn-outline" style="display:none" onclick="applyTalkOutline()">✍️ Folosește această schiță</button>
+            </div>
+
+            <div class="form-group">
+              <div class="note-label-row">
+                <label>Notițe pregătire</label>
+                <div class="note-font-control">
+                  <button type="button" class="note-font-btn" onclick="changeTalkNoteFontSize(-1)" title="Micșorează text">A</button>
+                  <span class="note-font-value" id="talkNoteFontValue">14</span>
+                  <button type="button" class="note-font-btn note-font-btn-lg" onclick="changeTalkNoteFontSize(1)" title="Mărește text">A</button>
+                  <button type="button" class="note-fullscreen-btn" onclick="openFullscreenNote('talk-notes', 'Cuvântare – 5 minute')" title="Ecran complet">🖥 Ecran complet</button>
+                </div>
+              </div>
+              <textarea id="talk-notes" class="form-textarea small" style="min-height:400px" placeholder="Idei principale, introducere, concluzie..." oninput="saveTalkDraft(); updateWordCounters()"></textarea>
+              <div class="word-counter" id="talkWordCounter">Cuvinte: 0</div>
+            </div>
+            <div class="action-row">
+              <button class="btn-ghost" onclick="newTalk5()">➕ Cuvântare Nouă</button>
+              <button class="btn-ghost" id="talk5DeleteBtn" onclick="deleteTalk5Draft()" style="display:none;color:var(--red)">🗑 Șterge</button>
+              <button class="btn-primary" onclick="saveTalk5Note()">💾 Salvează Cuvântarea</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <div class="page-header" style="margin-bottom:12px">
+          <h3 style="margin:0">📚 Cuvântări Salvate</h3>
+          <p class="page-sub" style="margin:0">Apasă pe o cuvântare pentru a o încărca și edita.</p>
+        </div>
+        <div id="talk5TalksList" class="notes-grid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE: BIBLE READER (jw.org/ro) -->
+  <section class="page" id="page-biblereader">
+    <div class="bible-reader-layout">
+
+      <!-- LEFT: Navigation + Notes -->
+      <div class="bible-sidebar">
+        <!-- Book selector -->
+        <div class="bible-nav-card">
+          <div class="bible-nav-header">
+            <span class="bible-nav-title">📖 Citește Biblia</span>
+            <a href="https://www.jw.org/ro/biblioteca/biblia/biblia-de-studiu/c%C4%83r%C8%9Bi/" target="_blank" class="jw-badge">jw.org/ro ↗</a>
+          </div>
+
+          <div class="bible-testament-tabs">
+            <button class="testament-tab active" id="tab-ot" onclick="switchTestament('ot')">Scripturile Ebraice</button>
+            <button class="testament-tab" id="tab-nt" onclick="switchTestament('nt')">Scripturile Grecești</button>
+          </div>
+
+          <div class="bible-books-grid" id="bibleBooksList"></div>
+        </div>
+
+        <!-- Chapter selector -->
+        <div class="bible-nav-card" id="chapterSelectorCard" style="display:none">
+          <div class="bible-chap-header">
+            <button class="btn-ghost btn-sm" onclick="backToBooks()">← Înapoi</button>
+            <span class="bible-book-name" id="selectedBookName"></span>
+          </div>
+          <div class="bible-chapters-grid" id="bibleChaptersList"></div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Editor integrat direct în pagină, fără popup/modal -->
+      <div class="bible-reading-panel">
+
+        <!-- Placeholder când nu este selectat niciun capitol -->
+        <div class="bible-inline-placeholder" id="bibleWelcome">
+          <div class="bible-inline-placeholder-inner">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="56" height="56" opacity="0.25">
+              <path d="M8 56V12a4 4 0 0 1 4-4h28l16 16v32a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4z" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M40 8v16h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="18" y1="32" x2="46" y2="32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <line x1="18" y1="40" x2="40" y2="40" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <p style="color:var(--text-muted);font-size:0.92rem;margin-top:14px;text-align:center">
+              Selectează o carte și un capitol din stânga<br>pentru a deschide editorul de notițe.
+            </p>
+          </div>
+        </div>
+
+        <!-- Editor capitol – apare direct în panou când se selectează un capitol -->
+        <div class="bible-chapter-view" id="bibleChapterView" style="display:none">
+
+          <!-- Bara de navigare capitol -->
+          <div class="chapter-view-header">
+            <div class="chapter-nav-btns">
+              <button class="chapter-nav-btn" id="btnPrevChap" onclick="navigateChapter(-1)">‹ Anterior</button>
+              <h2 class="chapter-title" id="chapterTitle"></h2>
+              <button class="chapter-nav-btn" id="btnNextChap" onclick="navigateChapter(1)">Următor ›</button>
+            </div>
+            <a id="jwReadLink" href="#" target="_blank" rel="noopener" class="jw-badge" style="margin-top:6px;display:inline-block">
+              Citește pe jw.org ↗
+            </a>
+          </div>
+
+          <!-- Notițe capitol -->
+          <div class="bible-inline-section">
+            <p class="bible-inline-label">📝 Notițe – <span id="chapterNotesBadge"></span></p>
+            <textarea class="form-textarea" id="chapterNotesText"
+              style="min-height:120px"
+              placeholder="Scrie notițe, impresii sau versete marcate din acest capitol..."
+              oninput="autoSaveChapterNote()"></textarea>
+          </div>
+
+          <!-- Versete marcate -->
+          <div class="bible-inline-section">
+            <p class="bible-inline-label">⭐ Versete marcate</p>
+            <div class="marked-verse-input">
+              <input type="text" id="markedVerseRef" class="form-input" placeholder="ex: v.3, v.16-18" />
+              <button class="btn-primary btn-sm" onclick="addMarkedVerse()">+ Marchează</button>
+            </div>
+            <div id="markedVersesList" class="marked-verses-list"></div>
+          </div>
+
+          <!-- Text capitol lipit/scris de utilizator -->
+          <div class="bible-inline-section">
+            <p class="bible-inline-label">📄 Textul capitolului (local)</p>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin:0 0 8px">
+              Lipește sau scrie textul versetelor. Salvat automat, doar pe acest dispozitiv.
+            </p>
+            <textarea class="form-textarea" id="chapterVerseText"
+              style="min-height:200px;font-size:0.92rem;line-height:1.65"
+              placeholder="Lipește aici textul capitolului..."
+              oninput="autoSaveChapterVerseText()"></textarea>
+          </div>
+
+          <!-- Notițe salvate – afișare -->
+          <div class="chapter-notes-display" id="chapterNotesDisplay"></div>
+
+          <!-- Highlights versete marcate -->
+          <div class="chapter-highlights" id="chapterHighlights"></div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE: BIBLIOTECĂ -->
+  <section class="page" id="page-library">
+    <div class="page-header">
+      <h2>🎬 Bibliotecă</h2>
+      <p class="page-sub">Publicații și materiale video</p>
+    </div>
+
+    <!-- ── BIG TAB BUTTONS ── -->
+    <div class="lib-big-tabs">
+      <button class="lib-big-tab active" id="tab-pub" data-libtab="pub" onclick="switchLibTab('pub')">
+        <div class="lib-big-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+        </div>
+        <span class="lib-big-label">PUBLICAȚII</span>
+      </button>
+      <button class="lib-big-tab" id="tab-video" data-libtab="video" onclick="switchLibTab('video')">
+        <div class="lib-big-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="23 7 16 12 23 17 23 7"/>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+          </svg>
+        </div>
+        <span class="lib-big-label">MATERIALE VIDEO</span>
+      </button>
+      <button class="lib-big-tab" id="tab-music" data-libtab="music" onclick="switchLibTab('music')">
+        <div class="lib-big-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18V5l12-2v13"/>
+            <circle cx="6" cy="18" r="3"/>
+            <circle cx="18" cy="16" r="3"/>
+          </svg>
+        </div>
+        <span class="lib-big-label">MUZICĂ</span>
+      </button>
+    </div>
+
+    <!-- ══ TAB: PUBLICAȚII ══ -->
+    <div id="lib-pub" class="lib-panel active">
+      <p class="lib-hint">Publicații din <strong>jw.org</strong> — adaugă linkuri sau fișiere PDF descărcate.</p>
+      <div class="pub-list" id="pub-list">
+        <div class="pub-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <p>Nicio publicație adăugată încă.</p>
+        </div>
+      </div>
+      <button class="add-media-btn" id="add-pub-btn" onclick="openPubModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Adaugă Publicație
+      </button>
+      <!-- Modal adăugare publicație -->
+      <div id="pub-modal" class="mini-modal hidden">
+        <div class="mini-modal-box">
+          <h4>Publicație nouă</h4>
+          <input type="text" id="pub-title-input" placeholder="Titlu publicație..." class="mini-input" />
+          <input type="url" id="pub-url-input" placeholder="Link jw.org (opțional)" class="mini-input" />
+          <div class="mini-modal-btns">
+            <button class="mini-btn-cancel" id="pub-cancel" onclick="closePubModal()">Anulează</button>
+            <button class="mini-btn-ok" id="pub-save" onclick="savePub()">Salvează</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TAB: MATERIALE VIDEO ══ -->
+    <div id="lib-video" class="lib-panel hidden">
+      <p class="lib-hint">💻 Videourile rămân <strong>doar pe acest calculator</strong> — nimic nu se încarcă pe internet sau pe GitHub. Pe Chrome/Edge aplicația își amintește locul fișierului și îl reconectează cu un click; pe Firefox/Safari trebuie reselectat de fiecare dată.</p>
+
+      <div class="video-series">
+        <div class="series-header">
+          <span class="series-badge">📂</span>
+          <h3 class="series-title">Materiale Video</h3>
+          <span class="series-count" id="video-count">6 episoade</span>
+        </div>
+        <div class="video-toolbar">
+          <button class="reset-titles-btn" id="reset-titles-btn" title="Resetează titlurile la valorile implicite">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            Resetează titlurile
+          </button>
+        </div>
+        <div class="video-cards-list" id="video-cards-list">
+          <!-- Episoadele sunt generate dinamic din library.js (EPISODE_IDS) -->
+        </div>
+      </div>
+
+      <!-- Player modal (apare când dai play) -->
+      <div id="video-player-modal" class="vplayer-overlay hidden">
+        <div class="vplayer-box">
+          <div class="vplayer-header">
+            <span id="vplayer-title">Video</span>
+            <button id="vplayer-close" class="vplayer-close" title="Închide">✕</button>
+          </div>
+          <video id="vplayer-el" class="vplayer-el" controls></video>
+          <div class="vplayer-footer">
+            <button id="vplayer-exit" class="vplayer-exit-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Ieșire
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ TAB: MUZICĂ ══ -->
+    <div id="lib-music" class="lib-panel hidden">
+      <p class="lib-hint">🎵 Melodiile rămân <strong>doar pe acest calculator</strong> — nimic nu se încarcă pe internet. Adaugă-le una câte una, cu titlul pe care îl vrei. Aplicația reține exact de unde ai rămas la fiecare melodie.</p>
+
+      <!-- Card "Continuă ascultarea" -->
+      <div class="continue-listen-card hidden" id="continue-listen-card">
+        <div class="continue-listen-icon">🎧</div>
+        <div class="continue-listen-info">
+          <span class="continue-listen-label">Continuă ascultarea</span>
+          <span class="continue-listen-title" id="continue-listen-title"></span>
+          <span class="continue-listen-time" id="continue-listen-time"></span>
+        </div>
+        <button class="continue-listen-btn" id="continue-listen-btn" title="Continuă">
+          <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+      </div>
+
+      <div class="video-series">
+        <div class="series-header">
+          <span class="series-badge">🎶</span>
+          <h3 class="series-title">Melodiile Mele</h3>
+          <span class="series-count" id="music-count">0 melodii</span>
+        </div>
+        <div class="video-cards-list" id="music-cards-list">
+          <div class="pub-empty" id="music-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            <p>Nicio melodie adăugată încă.</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="add-media-btn" id="add-song-btn" onclick="openAddSongModal()" style="margin-top:14px">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Adaugă Melodie
+      </button>
+
+      <!-- Modal adăugare melodie -->
+      <div id="song-modal" class="mini-modal hidden">
+        <div class="mini-modal-box">
+          <h4>Melodie nouă</h4>
+          <p style="font-size:0.8rem;color:var(--text-secondary);margin:-8px 0 12px">Scrie titlul, apoi apasă Salvează — se va deschide selectorul de fișiere ca să alegi melodia de pe calculator.</p>
+          <input type="text" id="song-title-input" placeholder="Titlu melodie..." class="mini-input" maxlength="120" />
+          <div class="mini-modal-btns">
+            <button class="mini-btn-cancel" id="song-cancel" onclick="closeAddSongModal()">Anulează</button>
+            <button class="mini-btn-ok" id="song-save" onclick="saveNewSong()">Salvează</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Player audio (apare când dai play) -->
+      <div id="audio-player-modal" class="vplayer-overlay hidden">
+        <div class="vplayer-box">
+          <div class="vplayer-header">
+            <span id="aplayer-title">Melodie</span>
+            <button id="aplayer-close" class="vplayer-close" title="Închide">✕</button>
+          </div>
+          <div class="aplayer-art">🎵</div>
+          <audio id="aplayer-el" class="aplayer-el" controls></audio>
+          <div class="vplayer-footer">
+            <button id="aplayer-prev" class="vplayer-exit-btn" title="Melodia anterioară">
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5" stroke="currentColor" stroke-width="2"/></svg>
+            </button>
+            <button id="aplayer-exit" class="vplayer-exit-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Ieșire
+            </button>
+            <button id="aplayer-next" class="vplayer-exit-btn" title="Melodia următoare">
+              <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19" stroke="currentColor" stroke-width="2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE: BIBLE STUDY -->
+  <section class="page" id="page-bible">
+    <div class="page-header">
+      <h2>✏️ Studiu Biblic Personal</h2>
+      <p class="page-sub">Versete, pasaje și meditații personale</p>
+    </div>
+
+    <div class="wt-container">
+      <div class="card">
+        <div class="card-header">
+          <h3>Adaugă Verset / Pasaj</h3>
+          <button class="btn-primary btn-sm" onclick="addVerseEntry()">+ Adaugă</button>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Referință Biblică</label>
+            <input type="text" id="verse-ref-input" placeholder="ex: Ioan 3:16" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Categoria</label>
+            <select class="form-input" id="verse-category">
+              <option>Credință</option>
+              <option>Iubire</option>
+              <option>Speranță</option>
+              <option>Rugăciune</option>
+              <option>Înțelepciune</option>
+              <option>Altele</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Textul Versetului</label>
+          <textarea class="form-textarea" id="verse-text-input" placeholder="Copiați textul versetului din NWT sau Biblia în versiunea preferată..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Meditație / Aplicare Personală</label>
+          <textarea class="form-textarea" id="verse-meditation" placeholder="Cum mă ajută acest verset? Cum îl aplic în viața mea?"></textarea>
+        </div>
+        <div class="action-row">
+          <button class="btn-primary" onclick="saveVerse()">💾 Salvează Versetul</button>
+        </div>
+      </div>
+
+      <!-- VERSES LIST -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Versetele Mele Salvate</h3>
+          <div class="filter-tabs" id="verseFilters">
+            <button class="filter-tab active" data-filter="all">Toate</button>
+            <button class="filter-tab" data-filter="Credință">Credință</button>
+            <button class="filter-tab" data-filter="Dragoste">Iubire</button>
+            <button class="filter-tab" data-filter="Speranță">Speranță</button>
+            <button class="filter-tab" data-filter="Rugăciune">Rugăciune</button>
+          </div>
+        </div>
+        <div id="versesList" class="verses-list">
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" width="48" height="48" opacity=".3"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            <p>Niciun verset salvat încă.</p>
+            <p style="font-size:0.85rem;opacity:.6">Adaugă primul tău verset de mai sus.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROPHECIES -->
+      <div class="card prophecies-card">
+        <div class="card-header">
+          <h3>📜 Profeții și Împlinirea lor</h3>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-primary btn-sm" onclick="addProphecy()">+ Adaugă Profeție</button>
+            <button class="btn-ghost btn-sm" onclick="exportProphecies()">📤 Export</button>
+            <button class="btn-ghost btn-sm" onclick="addExampleProphecies()">📖 Exemple</button>
+          </div>
+        </div>
+
+        <div style="overflow-x:auto; margin-top: 4px;">
+          <table class="prophecy-table" id="prophecyTable">
+            <thead>
+              <tr>
+                <th style="width:30%;">📖 Profeția</th>
+                <th style="width:12%;">📅 Anul</th>
+                <th style="width:38%;">✅ Împlinirea</th>
+                <th style="width:15%;">🔗 Referință</th>
+                <th style="width:40px;">⚙️</th>
+              </tr>
+            </thead>
+            <tbody id="prophecyTableBody">
+            </tbody>
+          </table>
+        </div>
+
+        <div id="prophecyEmpty" class="empty-state-small">
+          Nicio profeție adăugată. Apasă „+ Adaugă Profeție" pentru a începe.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE: FIELD SERVICE -->
+  <section class="page" id="page-fieldservice">
+    <div class="page-header">
+      <div style="font-size:2rem;line-height:1;margin-bottom:6px">🧑‍🤝‍🧑</div>
+      <h2>Serviciul de ieșire pe teren</h2>
+      <p class="page-sub">Notițe și idei pentru lucrarea de predicare</p>
+    </div>
+
+    <div class="wt-container">
+      <div class="card">
+        <div class="card-header">
+          <h3>Adaugă Notiță Serviciu de ieșire pe Teren</h3>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Data Întrunirii</label>
+            <input type="date" id="fs-date" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Titlu / Subiect</label>
+            <input type="text" id="fs-title" placeholder="ex: Discuții purtate, Textul zilei..." class="form-input" />
+          </div>
+        </div>
+        <div class="form-group" style="margin-top: 12px;">
+          <label>Notițele mele</label>
+          <textarea class="form-textarea" id="fs-content" placeholder="Scrie idei din discuție, versete folosite, grupuri de teren..." style="min-height: 150px;"></textarea>
+        </div>
+        <div class="action-row">
+          <button class="btn-primary" onclick="saveFieldServiceNote()">💾 Salvează Notița</button>
+        </div>
+      </div>
+
+      <!-- SAVED FIELD SERVICE NOTES -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Notițe Serviciu de Teren Salvate</h3>
+        </div>
+        <div id="fsNotesList" class="notes-grid">
+          <div class="empty-state full-width">
+            <p>Nicio notiță de serviciu de teren salvată.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROGRAM ÎNTRUNIRE DE IEȘIRE PE TEREN -->
+      <div class="card">
+        <div class="card-header" style="flex-direction:column;align-items:stretch;gap:10px">
+          <h3>Program pentru Întrunirea de Ieșire pe Teren</h3>
+          <div id="fsLockBar" class="fs-lock-bar"></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="btn-outline btn-sm" onclick="suggestFieldServiceSchedule()" style="font-size:0.75rem;padding:5px 10px">🧠 Sugerează programul</button>
+            <button type="button" class="btn-outline btn-sm" onclick="exportFieldServiceICS()" style="font-size:0.75rem;padding:5px 10px">📅 Exportă în Calendar</button>
+            <button type="button" class="btn-outline btn-sm" onclick="saveFieldServiceScheduleManual()" style="font-size:0.75rem;padding:5px 10px">💾 Salvează</button>
+            <button type="button" class="btn-outline btn-sm" onclick="shareFieldServiceScheduleWhatsApp(null)" style="font-size:0.75rem;padding:5px 10px">📲 Trimite pe WhatsApp</button>
+          </div>
+        </div>
+        <div id="fsCoWeekBar" class="fs-coweek-bar"></div>
+        <div id="fsScheduleGrid" class="fs-sched-grid"></div>
+        <div id="fsSuggestionPanel" class="fs-suggestion-panel" style="display:none"></div>
+      </div>
+
+      <!-- TABELE CALENDAR SUPLIMENTARE -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Tabele Calendar Suplimentare</h3>
+          <button type="button" class="btn-outline btn-sm" onclick="addFieldServiceExtraTable()" style="font-size:0.75rem;padding:5px 10px">🗓️ Tabel Calendar Nou</button>
+        </div>
+        <p class="page-sub" style="margin:0 0 10px">Poți crea mai multe tabele (ex: pentru săptămâni sau perioade diferite). Toate rămân vizibile aici, unul sub altul.</p>
+        <div id="fsExtraTables"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE: PROGRAMARE DE IEȘIRE PE TEREN (previzualizare poză + notiță) -->
+  <section class="page" id="page-fieldschedulingpreview">
+    <div class="page-header">
+      <div style="font-size:2rem;line-height:1;margin-bottom:6px">🖼️</div>
+      <h2>Programare de ieșire pe teren</h2>
+      <p class="page-sub">Previzualizare imagine și notiță pentru programare</p>
+    </div>
+
+    <div class="wt-container">
+      <div class="card">
+        <div class="card-header">
+          <h3>Imagine</h3>
+        </div>
+        <div style="display:flex;justify-content:center;margin-bottom:16px">
+          <img src="assets/predicare-din-casa-in-casa.webp" alt="Predicare din casă în casă" style="max-width:100%;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,0.15)" />
+        </div>
+        <div class="form-group">
+          <label>Notiță</label>
+          <textarea class="form-textarea" id="fieldSchedulingPreviewText" placeholder="Scrie aici o notiță legată de programare..." style="min-height:120px"></textarea>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE: ASISTENT DE PREDICARE (în lucru) -->
+  <section class="page" id="page-preachingassistant">
+    <div class="page-header">
+      <div style="font-size:2rem;line-height:1;margin-bottom:6px">🗣️</div>
+      <h2>Asistent de predicare</h2>
+      <p class="page-sub">Această funcție este în pregătire.</p>
+    </div>
+    <div class="wt-container">
+      <div class="card">
+        <div class="empty-state full-width">
+          <p>Spune-mi ce date vrei să apară aici și o construim împreună.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE: NOTES -->
+  <section class="page" id="page-notes">
+    <div class="notes-split-layout">
+
+      <!-- Panoul stâng: filtre + lista notițelor -->
+      <div class="notes-list-panel">
+        <div class="notes-list-header">
+          <h2>📄 Notițele Mele</h2>
+          <button class="btn-primary btn-sm" onclick="openNewNoteInline()">+ Notiță Nouă</button>
+        </div>
+        <div class="filter-tabs" id="notesFilters" style="flex-wrap:wrap;gap:6px;margin-bottom:12px">
+          <button class="filter-tab active" data-filter="all" onclick="renderNotesList('all')">Toate</button>
+          <button class="filter-tab" data-filter="watchtower" onclick="renderNotesList('watchtower')">TV</button>
+          <button class="filter-tab" data-filter="workbook" onclick="renderNotesList('workbook')">VCP</button>
+          <button class="filter-tab" data-filter="bible" onclick="renderNotesList('bible')">Biblie</button>
+          <button class="filter-tab" data-filter="fieldservice" onclick="renderNotesList('fieldservice')">Teren</button>
+          <button class="filter-tab" data-filter="general" onclick="renderNotesList('general')">Generale</button>
+        </div>
+        <div id="notesList" class="notes-list-stack">
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" width="44" height="44" opacity=".2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            <p>Nicio notiță salvată.</p>
+            <button class="btn-primary" onclick="openNewNoteInline()" style="margin-top:10px">Creează Prima Notiță</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panoul drept: editor inline (fără modal/popup) -->
+      <div class="notes-editor-panel" id="notesEditorPanel">
+        <!-- Placeholder când nicio notiță nu e selectată -->
+        <div class="notes-editor-placeholder" id="notesEditorPlaceholder">
+          <svg viewBox="0 0 24 24" width="52" height="52" opacity=".2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+          <p style="color:var(--text-muted);font-size:0.9rem;text-align:center;margin-top:12px">
+            Selectează o notiță sau<br>apasă <strong>+ Notiță Nouă</strong>
+          </p>
+        </div>
+
+        <!-- Editor propriu-zis -->
+        <div class="notes-editor-form" id="notesEditorForm" style="display:none">
+          <div class="notes-editor-header">
+            <span class="notes-editor-title-label" id="notesEditorTitleLabel">Notiță Nouă</span>
+            <div style="display:flex;gap:8px">
+              <button class="btn-danger btn-sm" id="deleteNoteBtn" onclick="deleteCurrentNote()" style="display:none">🗑 Șterge</button>
+              <button class="btn-primary btn-sm" onclick="saveNote()">💾 Salvează</button>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:12px">
+            <label>Titlu</label>
+            <input type="text" id="noteTitle" class="form-input" placeholder="Titlul notiței..." />
+          </div>
+          <div class="form-row" style="margin-bottom:12px">
+            <div class="form-group">
+              <label>Categoria</label>
+              <select class="form-input" id="noteCategory">
+                <option value="general">Generală</option>
+                <option value="watchtower">Turnul de Veghe</option>
+                <option value="workbook">Viața creștină și predicarea</option>
+                <option value="bible">Studiu Biblic</option>
+                <option value="fieldservice">Serviciu de ieșire pe teren</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Etichete (virgulă)</label>
+              <input type="text" id="noteTags" class="form-input" placeholder="credință, dragoste, speranță" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Conținut</label>
+            <textarea class="form-textarea" id="noteContent" style="min-height:280px" placeholder="Scrie notița ta..."></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PAGE: MEETINGS -->
+  <section class="page" id="page-meetings">
+    <div class="page-header">
+      <h2>📅 Programul Meu de Întruniri</h2>
+      <p class="page-sub">Planifică și urmărește pregătirea pentru fiecare întrunire</p>
+    </div>
+
+    <div class="meetings-grid">
+      <div class="card meeting-type-card">
+        <div class="meeting-badge" style="background:linear-gradient(135deg,#4f8ef7,#6c63ff)">
+          <span>DUMINICĂ</span>
+        </div>
+        <h3>Întrunire de Weekend</h3>
+        <ul class="meeting-agenda">
+          <li>🎵 Cântare & Rugăciune</li>
+          <li>📢 Discurs public (30 min)</li>
+          <li><svg viewBox="0 0 130 60" width="19" height="8.8" style="vertical-align:middle;margin-right:5px;margin-top:-2px"><path d="M19,56 L19,43 L11,43 L11,36 L2,36 L2,2 L21,2 L21,12 L32,12 L32,2 L46,2 L46,12 L57,12 L57,2 L72,2 L72,12 L83,12 L83,2 L98,2 L98,12 L109,12 L109,2 L127,2 L127,36 L119,36 L119,43 L111,43 L111,56" stroke="currentColor" stroke-width="8" fill="none" stroke-linejoin="round" stroke-linecap="round"/></svg>Studierea Turnului de Veghe (60 min)</li>
+          <li>🎵 Cântare & Rugăciune de Încheiere</li>
+        </ul>
+        <div class="progress-section">
+          <div class="progress-label"><span>Pregătire</span><span id="weekendProgress">0%</span></div>
+          <div class="progress-bar"><div class="progress-fill" id="weekendProgressBar" style="width:0%"></div></div>
+        </div>
+        <button class="btn-outline w-full" style="margin-top:12px" onclick="navigateTo('watchtower')">Pregătește Turnul de Veghe →</button>
+      </div>
+
+      <div class="card meeting-type-card">
+        <div class="meeting-badge" style="background:linear-gradient(135deg,#10c9a0,#0ea47a)">
+          <span>JOI</span>
+        </div>
+        <h3>Întrunire de Mijlocul Săptămânii</h3>
+        <ul class="meeting-agenda">
+          <li>🎵 Cântare & Rugăciune</li>
+          <li>💎 Comori din Cuvântul lui Dumnezeu</li>
+          <li>🌾 Să fim mai eficienți în Predicare</li>
+          <li>❤️ VIAȚA DE CREȘTIN</li>
+          <li>🎵 Cântare & Rugăciune de Încheiere</li>
+        </ul>
+        <div class="progress-section">
+          <div class="progress-label"><span>Pregătire</span><span id="weekdayProgress">0%</span></div>
+          <div class="progress-bar"><div class="progress-fill" id="weekdayProgressBar" style="width:0%"></div></div>
+        </div>
+        <button class="btn-outline w-full" style="margin-top:12px" onclick="navigateTo('workbook')">Pregătește Viața creștină și predicarea →</button>
+      </div>
+
+      <!-- UPCOMING MEETINGS CALENDAR -->
+      <div class="card" style="grid-column: 1/-1">
+        <div class="card-header">
+          <h3>📅 Calendar Pregătire</h3>
+          <button class="btn-primary btn-sm" onclick="addMeetingEntry()">+ Adaugă Întrunire</button>
+        </div>
+        <div id="meetingsCalendar" class="meetings-calendar-list">
+          <div class="empty-state-small">Nicio întrunire planificată. Adaugă una!</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- MODAL: Note Editor -->
+<div class="modal-overlay" id="settingsModal" onclick="if(event.target===this) closeSettingsModal()">
+  <div class="modal modal-settings">
+    <div class="modal-header">
+      <h3>⚙️ Setări</h3>
+      <button class="modal-close" onclick="closeSettingsModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="settings-row">
+        <span class="settings-label">Versiune aplicație</span>
+        <span class="settings-value">
+          v0.9.3
+          <button type="button" class="changelog-link-btn" onclick="openChangelogModal()">Ce e nou</button>
+        </span>
+      </div>
+      <div class="settings-row">
+        <span class="settings-label">Limbă</span>
+        <span class="settings-value">Română</span>
+      </div>
+
+      <div class="settings-section-label">ℹ️ INFORMAȚIE</div>
+      <div class="info-box">
+        <p><strong>StudiuMeu</strong> este o aplicație personală, necomercială, gândită să adune într-un singur loc toate uneltele de care ai nevoie pentru pregătirea temeinică a întrunirilor și a serviciului de teren.</p>
+
+        <p><strong>🔒 Confidențialitate deplină.</strong> Aplicația funcționează <strong>offline</strong> și toate notițele, listele cu nume și documentele tale rămân salvate <strong>exclusiv pe acest dispozitiv</strong> — nimic nu este urcat automat pe internet sau pe vreun server. Singurul moment în care datele tale „ies" de pe dispozitiv este atunci când <em>tu</em> alegi explicit să exporți un backup sau să trimiți o cuvântare cuiva.</p>
+
+        <p><strong>📖 Ce poți face în aplicație:</strong></p>
+        <ul>
+          <li><strong>Biblia</strong> — citești toate cele 66 de cărți, capitol cu capitol, direct din aplicație.</li>
+          <li><strong>Notițe</strong> — organizate pe categorii și etichete, cu căutare rapidă.</li>
+          <li><strong>Cuvântarea de 5 minute</strong> — cronometru dedicat, cu pornire/pauză.</li>
+          <li><strong>Discursul Biblic de 30 minute</strong> — cronometru pe subtitluri, cu alerte, plus loc pentru notițe și versetul de bază.</li>
+          <li><strong>Temă pentru cursant (S-89-M)</strong> — fiecare cursant își notează propriile date de temă, le vede într-un calendar și le poate printa în formatul fișei oficiale.</li>
+          <li><strong>Serviciul de teren</strong> — organizare locală a ieșirilor, cu notificări care te anunță cu o zi înainte și în ziua respectivă cine e programat.</li>
+          <li><strong>Studiul Turnului de Veghe</strong> — notițe pe paragrafe, pregătite din timp.</li>
+          <li><strong>Profeții și împlinirea lor</strong>, <strong>Studiu biblic pe versete</strong> și <strong>calculator de cuvinte</strong> pentru cuvântări.</li>
+          <li><strong>Bibliotecă</strong> — linkuri/PDF-uri de pe jw.org și materiale video redate direct din aplicație; videoclipurile nu sunt niciodată stocate sau încărcate — doar citite de pe calculator, la cerere.</li>
+        </ul>
+
+        <p><strong>🚶 Programul pentru Întrunirea de Ieșire pe Teren — ghid rapid:</strong></p>
+        <ul>
+          <li><strong>💾 Salvează</strong> — salvează explicit programul curent (datele se salvează oricum automat pe măsură ce scrii; butonul doar confirmă vizual).</li>
+          <li><strong>📲 Trimite pe WhatsApp</strong> — trimite tot programul (Marți/Vineri/Sâmbătă, cu dată și nume) ca mesaj gata formatat, printr-un chat WhatsApp la alegere.</li>
+          <li><strong>🗓️ Tabele Calendar Suplimentare</strong> — poți crea oricâte tabele de program vrei, fiecare cu titlul lui (ex: „Iulie 2026"). Toate rămân salvate și vizibile simultan, unul sub altul, fără să se suprapună; fiecare are propriile butoane Salvează / WhatsApp / Șterge.</li>
+          <li><strong>Săptămână cu vizita supraveghetorului de circumscripție</strong> — bifează opțiunea din tabelul principal și introdu manual intervalul de date (De la / Până la). Apare un mesaj informativ, rândurile din acel interval devin needitabile, iar „🧠 Sugerează programul" sare peste acele date.</li>
+        </ul> Din Setări poți exporta oricând toate datele într-un fișier JSON, ca să nu le pierzi dacă schimbi telefonul sau ștergi accidental aplicația. Ai și un export separat, în format Word, doar pentru cuvântări. Îți recomand să faci un export din când în când — mai ales înainte de o actualizare majoră a telefonului.</p>
+
+        <p><strong>📤 Trimite Cuvântări.</strong> Poți trimite o cuvântare direct altui utilizator al aplicației, fără WhatsApp sau e-mail. Datele circulă direct între cele două telefoane (conexiune criptată telefon-la-telefon), nu trec prin niciun server care le stochează. Condiție: ambele aplicații trebuie să fie deschise în același timp; dacă destinatarul nu e conectat în acel moment, trimiterea eșuează și ești anunțat imediat.</p>
+
+        <p><strong>🔔 Notificări program teren.</strong> Pe Chrome/Edge (Android sau calculator, instalată ca aplicație) funcționează și cu aplicația închisă. Pe iPhone (Safari) verificarea se face automat de fiecare dată când deschizi aplicația.</p>
+
+        <p><strong>📅 Exportă în Calendar.</strong> Din pagina Serviciu de Teren poți exporta programul într-un fișier .ics, pe care îl imporți în Google Calendar / Calendar iPhone. Așa primești notificările direct de la telefon (cu o zi înainte și cu 30 minute înainte), garantat, indiferent dacă StudiuMeu e deschis sau nu.</p>
+
+        <p style="margin-bottom:8px"><strong>📲 Cum instalezi aplicația</strong> — o poți adăuga pe ecranul principal, ca pe orice aplicație obișnuită:</p>
+        <div class="install-guide">
+          <div class="install-detected" id="installDetectedBanner">
+            <span class="install-detected-icon" id="installDetectedIcon">📱</span>
+            <span id="installDetectedText">Se detectează dispozitivul…</span>
+          </div>
+          <div class="install-manual-label">Alege manual sistemul de operare mai jos</div>
+          <div class="install-tabs">
+            <button type="button" class="install-tab" id="installBtnAndroid" onclick="showInstallPanel('android')">🤖 Android</button>
+            <button type="button" class="install-tab" id="installBtnIos" onclick="showInstallPanel('ios')">🍎 iPhone</button>
+          </div>
+          <div class="install-panel" id="installPanelAndroid">
+            <ol class="install-steps">
+              <li><span class="install-num">1</span><span>Deschide aplicația în <strong>Google Chrome</strong>.</span></li>
+              <li><span class="install-num">2</span><span>Apasă pe cele <strong>trei puncte</strong> din colțul din dreapta sus.</span></li>
+              <li><span class="install-num">3</span><span>Derulează în jos și alege <strong>Instalează aplicația</strong>.</span></li>
+              <li><span class="install-num">4</span><span>Confirmă apăsând <strong>Instalează</strong> sau <strong>Adaugă</strong> (în funcție de versiunea browserului).</span></li>
+              <li><span class="install-num">5</span><span>Aplicația va apărea pe <strong>ecranul principal</strong> al telefonului.</span></li>
+            </ol>
+          </div>
+          <div class="install-panel" id="installPanelIos">
+            <ol class="install-steps">
+              <li><span class="install-num">1</span><span>Deschide aplicația în <strong>Safari</strong>.</span></li>
+              <li><span class="install-num">2</span><span>Apasă pe butonul <strong>Partajare</strong> (pătratul cu săgeata în sus).</span></li>
+              <li><span class="install-num">3</span><span>Derulează în jos și alege <strong>Adaugă la ecranul principal</strong>.</span></li>
+              <li><span class="install-num">4</span><span>Apasă <strong>Adaugă</strong> pentru confirmare.</span></li>
+              <li><span class="install-num">5</span><span>Aplicația va apărea pe <strong>ecranul principal</strong> al iPhone-ului și se va deschide ca o aplicație.</span></li>
+            </ol>
+          </div>
+        </div>
+
+        <p style="margin-bottom:8px"><strong>❓ Întrebări frecvente</strong></p>
+        <details class="faq-item">
+          <summary>De ce nu se trimite cuvântarea?</summary>
+          <p>Cel mai des, pentru că destinatarul nu are aplicația deschisă în acel moment — conexiunea se face direct telefon-la-telefon, deci ambele trebuie să fie online simultan. Verifică ID-ul introdus și roagă persoana să deschidă aplicația, apoi mai încearcă.</p>
+        </details>
+        <details class="faq-item">
+          <summary>De ce nu îmi vin notificările pe iPhone?</summary>
+          <p>Safari pe iPhone nu permite notificări în fundal pentru aplicații web. Vei primi/vedea alertele automat de fiecare dată când deschizi aplicația, dar nu și cât timp e închisă. Pentru notificări sigure pe iPhone, folosește exportul de Calendar (.ics) din pagina Serviciu de Teren.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Unde sunt salvate, de fapt, datele mele?</summary>
+          <p>Local, în memoria browserului de pe acest dispozitiv (localStorage / IndexedDB). Dacă ștergi datele browser-ului, dezinstalezi aplicația sau schimbi telefonul fără să faci export, datele se pierd — de-asta contează backup-ul periodic.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Ce se întâmplă dacă șterg aplicația fără backup?</summary>
+          <p>Notițele, cuvântările, programul de teren și tot restul se pierd definitiv — nu există nicio copie „în cloud" care să le recupereze. Fă un export din Setări înainte de orice schimbare majoră a telefonului.</p>
+        </details>
+
+        <p style="margin-bottom:0;margin-top:10px">Dacă ai sugestii sau observi ceva ce nu funcționează cum trebuie, spune-mi — aplicația e gândită să evolueze pe măsură ce ne este de folos în studiul personal și în pregătirea pentru întruniri.</p>
+      </div>
+
+      <div class="settings-row">
+        <span class="settings-label">Mod Afișare</span>
+        <button type="button" class="theme-toggle-btn" id="settingsThemeSwitch" onclick="toggleSettingsTheme()" title="Comută tema" aria-label="Comută tema întunecat/luminos">
+          <span class="theme-icon-moon">🌙</span>
+          <span class="toggle-track">
+            <span class="toggle-thumb"></span>
+          </span>
+          <span class="theme-icon-sun">☀️</span>
+        </button>
+      </div>
+
+      <div class="settings-section-label">🔒 Blocare cu PIN — Program Teren</div>
+      <p style="font-size:0.75rem;color:var(--text-secondary);margin-top:2px;margin-bottom:8px;line-height:1.4;">
+        Fiecare dintre voi doi își pune propriul nume și propriul PIN (cifre și simboluri, ex: 12@3!). Cât timp
+        blocarea e activă, tabelul principal de program se poate edita doar cu unul din cele două PIN-uri.
+      </p>
+      <div id="fsLockSettings"></div>
+
+      <div class="settings-section-label">🚶 Colaboratori Program Teren</div>
+      <p style="font-size:0.75rem;color:var(--text-secondary);margin-top:2px;margin-bottom:8px;line-height:1.4;">
+        Adaugă persoanele cu care alternezi și bifează în ce zile sunt disponibile.
+        Folosit de butonul „🧠 Sugerează programul".
+      </p>
+      <div id="fsCollaboratorsSettings"></div>
+      <button type="button" class="settings-action-btn" onclick="addCollaborator()" style="margin-top:8px">
+        <span>+ Adaugă colaborator</span>
+      </button>
+
+      <div class="settings-section-label">🔔 Notificări Program Teren</div>
+      <div class="settings-row">
+        <span class="settings-label">Stare</span>
+        <span class="settings-value" id="notifStatusLabel">Dezactivate</span>
+      </div>
+      <button type="button" class="settings-action-btn" id="notifToggleBtn" onclick="toggleNotifSettings()">
+        Activează
+      </button>
+      <p style="font-size:0.75rem;color:var(--text-secondary);margin-top:6px;line-height:1.4;">
+        Te anunță cu o zi înainte și în ziua respectivă cine e programat (Marți/Vineri/Sâmbătă).
+        Funcționează și cu aplicația închisă pe Chrome/Edge (Android sau Desktop, instalată ca aplicație);
+        pe iPhone (Safari) verificarea se face automat când deschizi aplicația.
+      </p>
+
+      <div class="settings-section-label">Export</div>
+      <div class="settings-row">
+        <span class="settings-label">Ultimul backup</span>
+        <span class="settings-value" id="lastExportLabel">Niciodată</span>
+      </div>
+      <button type="button" class="settings-action-btn" onclick="exportData()">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><polyline points="7 10 12 15 17 10" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Exportă date (JSON)</span>
+      </button>
+      <button type="button" class="settings-action-btn" onclick="exportTalksWord()">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><polyline points="14 2 14 8 20 8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="8" y1="13" x2="16" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="8" y1="17" x2="13" y2="17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Exportă Cuvântări (Word)</span>
+      </button>
+
+      <div class="settings-section-label">Import</div>
+      <button type="button" class="settings-action-btn" onclick="triggerImport()">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><polyline points="17 8 12 3 7 8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="3" x2="12" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Importă date (JSON)</span>
+      </button>
+
+      <div class="settings-section-label">Trimite Cuvântări</div>
+      <div class="t-status-row">
+        <span class="t-status-dot" id="tStatusDot"></span>
+        <span id="tStatusLabel">Neconectat</span>
+      </div>
+      <div class="settings-row">
+        <span class="settings-label">Ultima trimitere reușită</span>
+        <span class="settings-value" id="tLastSendLabel">Nicio trimitere încă</span>
+      </div>
+      <div class="settings-row">
+        <span class="settings-label">Numele meu</span>
+        <span class="settings-value" id="tMyName">—</span>
+      </div>
+      <div class="settings-row">
+        <span class="settings-label">ID-ul meu</span>
+        <button type="button" class="settings-value t-id-copy" id="tMyId" onclick="copyMyId()" title="Copiază ID-ul">—</button>
+      </div>
+      <button type="button" class="settings-action-btn" onclick="openIdentityModal()">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 20h9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>
+        <span id="tIdentityBtnLabel">Editează numele</span>
+      </button>
+      <div class="t-contacts-settings" id="tContactsSettingsList"></div>
+
+      <div class="settings-section-label settings-danger-label">⚠️ Zonă periculoasă</div>
+      <p style="font-size:0.75rem;color:var(--text-secondary);margin:0 0 10px;line-height:1.4;">
+        Șterge permanent toate datele din această aplicație (notițe, cuvântări, program teren, temă cursant, contacte etc.) de pe acest dispozitiv. Recomandăm un export înainte.
+      </p>
+      <details class="faq-item" style="margin-bottom:10px;">
+        <summary>Nu e ceva de rutină — când ai de fapt nevoie de asta?</summary>
+        <p style="margin-top:8px">Datele tale rămân salvate la nesfârșit, fără nicio ștergere automată — nu trebuie să folosești niciodată acest buton. E util doar în situații rare, cum ar fi:</p>
+        <ul style="margin:8px 0 0;padding-left:18px;">
+          <li style="margin-bottom:6px">Dai telefonul/laptopul altcuiva (îl vinzi, îl predai la service, îl moștenește altă persoană) și vrei să pleci fără notele, numele din programul de teren sau cuvântările tale personale rămase pe el.</li>
+          <li style="margin-bottom:6px">Ai testat aplicația cu date de probă și vrei un start curat, fără să dezinstalezi/reinstalezi manual.</li>
+          <li>Ceva pare corupt sau blocat — rar, dar în acest caz ștergerea completă urmată de reimportul unui backup vechi e cea mai sigură cale de reparare.</li>
+        </ul>
+      </details>
+      <button type="button" class="settings-action-btn settings-danger-btn" onclick="resetAllData()">
+        <svg viewBox="0 0 24 24" width="16" height="16"><polyline points="3 6 5 6 21 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 11v6M14 11v6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        <span>Șterge toate datele</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Ce e nou (changelog) -->
+<div class="modal-overlay" id="changelogModal" onclick="if(event.target===this) closeChangelogModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🆕 Ce e nou</h3>
+      <button class="modal-close" onclick="closeChangelogModal()">✕</button>
+    </div>
+    <div class="modal-body" id="changelogList"></div>
+  </div>
+</div>
+
+<!-- MODAL: Identitate (nume + ID pentru trimitere directă) -->
+<div class="modal-overlay" id="identityModal" onclick="if(event.target===this) closeIdentityModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>👤 Identitatea ta</h3>
+      <button class="modal-close" onclick="closeIdentityModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="page-sub" style="margin-top:0">Numele tău va fi văzut de persoana căreia îi trimiți o cuvântare. ID-ul e generat automat și e unic pentru tine.</p>
+      <div class="form-group">
+        <label>Numele tău</label>
+        <input type="text" id="tIdentityName" class="form-input" placeholder="Ex nume" />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeIdentityModal()">Anulează</button>
+      <button class="btn-primary" onclick="saveMyIdentity()">💾 Salvează</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Trimite cuvântare/discurs direct către alt utilizator -->
+<div class="modal-overlay" id="sendTransferModal" onclick="if(event.target===this) closeSendModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>📤 Trimite</h3>
+      <button class="modal-close" onclick="closeSendModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Contacte recente</label>
+        <div class="t-contacts-list" id="tContactsList"></div>
+      </div>
+      <div class="form-group">
+        <label>Sau introdu direct ID-ul destinatarului</label>
+        <div class="form-row">
+          <input type="text" id="tRecipientId" class="form-input" placeholder="ex: A1B2C3" style="text-transform:uppercase" />
+          <input type="text" id="tRecipientName" class="form-input" placeholder="Numele lui (opțional)" />
+        </div>
+      </div>
+      <p class="page-sub" style="margin-bottom:0">Persoana trebuie să aibă aplicația deschisă chiar acum, ca să primească direct.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeSendModal()">Anulează</button>
+      <button class="btn-primary" onclick="sendFromForm()">📤 Trimite</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- Date & funcții de bază (fără dependențe) -->
+<!-- Fișier LOCAL, opțional, cu nume reale pentru programul de teren (nu e pe GitHub, vezi .gitignore).
+     Dacă nu există, aplicația pornește cu programul gol — nu dă eroare blocantă. -->
+<script src="field-service-data.local.js" onerror="console.info('field-service-data.local.js nu există — programul de teren pornește gol.')"></script>
+<script src="field-service-collaborators.local.js" onerror="console.info('field-service-collaborators.local.js nu există — lista de colaboratori pornește goală.')"></script>
+<script src="storage.js"></script>
+<script src="utils.js"></script>
+
+<!-- Bibliotecă externă pentru trimitere directă cuvântări (peer-to-peer) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js"></script>
+
+<!-- Module funcționale (fiecare fișier = o secțiune a aplicației) -->
+<script src="navigation.js"></script>
+<script src="dashboard.js"></script>
+<script src="wtStudy.js"></script>
+<script src="workbook.js"></script>
+<script src="temacursant.js"></script>
+<script src="verses.js"></script>
+<script src="prophecies.js"></script>
+<script src="fieldServiceUtils.js"></script>
+<script src="fieldServiceStorage.js"></script>
+<script src="fieldServiceUI.js"></script>
+<script src="fieldServiceSuggest.js"></script>
+<script src="fieldService.js"></script>
+<script src="library.js"></script>
+<script src="notes.js"></script>
+<script src="meetings.js"></script>
+<script src="search.js"></script>
+<script src="theme.js"></script>
+<script src="bibleReader.js"></script>
+<script src="dataIO.js"></script>
+<script src="settings.js"></script>
+<script src="discursTimer.js"></script>
+<script src="talkTimer.js"></script>
+<script src="fontScale.js"></script>
+<script src="wordCounter.js"></script>
+<script src="transfer.js"></script>
+<script src="notifications.js"></script>
+<script src="icsExport.js"></script>
+
+<!-- Inițializare generală (trebuie încărcat ultimul) -->
+<script src="app.js"></script>
+
+<div id="talk5-toolbar" style="position:fixed;top:10px;right:10px;z-index:9999;">
+
+<!-- ECRAN COMPLET NOTIȚE (reutilizat de Cuvântare 5 min și Cuvântare 30 min) -->
+<div id="noteFullscreenOverlay" class="page-fullscreen">
+  <div class="top-bar">
+    <button onclick="closeFullscreenNote()">← Înapoi</button>
+    <h2 id="noteFullscreenTitle">Notițe</h2>
+  </div>
+  <div id="noteFullscreenSlot" style="display:flex;flex:1;min-height:0"></div>
+</div>
+
+<!-- BUTON INSTALARE PWA (apare doar pe Android/Chrome, când aplicația e instalabilă) -->
+<button id="pwaInstallBtn">
+  <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span>Instalează aplicația</span>
+</button>
+
+<script>
+let deferredInstallPrompt = null;
+const pwaInstallBtn = document.getElementById('pwaInstallBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  pwaInstallBtn.style.display = 'flex';
+});
+
+pwaInstallBtn.addEventListener('click', async () => {
+  if (!deferredInstallPrompt) return;
+  pwaInstallBtn.style.display = 'none';
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+});
+
+window.addEventListener('appinstalled', () => {
+  pwaInstallBtn.style.display = 'none';
+  deferredInstallPrompt = null;
+});
+
+// Ascunde butonul dacă aplicația rulează deja instalată (standalone)
+if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+  pwaInstallBtn.style.display = 'none';
+}
+</script>
+
+</body>
+</html>
