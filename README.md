@@ -1,0 +1,2 @@
+# Studiulâmeu
+aplicaie studiul persona
